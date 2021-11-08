@@ -1,0 +1,38 @@
+﻿@model ExsitecParonAB.Models.Warehouse
+
+<h2>Radera Varulager</h2>
+
+<h3>Är du säker på att du vill radera? Det kommer inte att kunna ogöras.</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Lagernr.
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.warehouseNo)
+        </dd>
+
+        <dt>
+            Stad
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.city)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Radera" class="btn btn-default" /> 
+        </div>
+        <div>
+            @Html.ActionLink("Tillbaka till listan", "Index")
+        </div>
+    }
+</div>

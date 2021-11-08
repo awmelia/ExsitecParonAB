@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ParonABModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productNo" />
+    </Key>
+    <Property Name="number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productNo" Type="varchar" MaxLength="4" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="price" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductTransaction">
+    <Key>
+      <PropertyRef Name="productName" />
+      <PropertyRef Name="city" />
+      <PropertyRef Name="amount" />
+    </Key>
+    <Property Name="dateTransaction" Type="date" />
+    <Property Name="productName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="city" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="amount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Warehouse">
+    <Key>
+      <PropertyRef Name="warehouseNo" />
+    </Key>
+    <Property Name="warehouseNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="city" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_product' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_product" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_warehouse' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_warehouse" />-->
+  <Function Name="GetProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetProductWarehouseAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="productName" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="ParonABModelStoreContainer">
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductTransaction" EntityType="Self.ProductTransaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

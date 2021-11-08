@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ExsitecParonAB.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+    <main>
+        <h2>Produkter</h2>
+        <hr />
+        <table class="productTable">
+            <tr>
+                <th id="code1">
+                    Produktkod
+                </th>
+                <th id="name1">
+                    Produktnamn
+                </th>
+                <th id="price1">
+                    Pris
+                </th>
+                <th id="actionProduct"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td id="code">
+                        @Html.DisplayFor(modelItem => item.productNo)
+                    </td>
+                    <td id="name">
+                        @Html.DisplayFor(modelItem => item.productName)
+                    </td>
+                    <td id="price">
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ändra", "Edit", new { id = item.productNo }) |
+                        @Html.ActionLink("Radera", "Delete", new { id = item.productNo })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <p>
+            @Html.ActionLink("Lägg till", "Create")
+        </p>
+    </main>
+

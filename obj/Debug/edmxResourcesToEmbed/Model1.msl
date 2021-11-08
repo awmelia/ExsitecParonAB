@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ParonABModelStoreContainer" CdmEntityContainer="ParonABEntities">
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="ParonABModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="productNo" ColumnName="productNo" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="price" ColumnName="price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductTransactions">
+      <EntityTypeMapping TypeName="ParonABModel.ProductTransaction">
+        <MappingFragment StoreEntitySet="ProductTransaction">
+          <ScalarProperty Name="dateTransaction" ColumnName="dateTransaction" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Warehouses">
+      <EntityTypeMapping TypeName="ParonABModel.Warehouse">
+        <MappingFragment StoreEntitySet="Warehouse">
+          <ScalarProperty Name="warehouseNo" ColumnName="warehouseNo" />
+          <ScalarProperty Name="city" ColumnName="city" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ErrorHandling" FunctionName="ParonABModel.Store.ErrorHandling" />
+    <FunctionImportMapping FunctionImportName="GetProductWarehouseAmount" FunctionName="ParonABModel.Store.GetProductWarehouseAmount">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ParonABModel.GetProductWarehouseAmount_Result">
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

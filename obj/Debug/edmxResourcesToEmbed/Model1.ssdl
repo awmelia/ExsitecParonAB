@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ParonABModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productName" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productNo" Type="varchar" MaxLength="4" StoreGeneratedPattern="Computed" />
+    <Property Name="productName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="price" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductTransaction">
+    <Key>
+      <PropertyRef Name="productName" />
+      <PropertyRef Name="city" />
+      <PropertyRef Name="amount" />
+    </Key>
+    <Property Name="dateTransaction" Type="date" />
+    <Property Name="productName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="city" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="amount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Warehouse">
+    <Key>
+      <PropertyRef Name="city" />
+    </Key>
+    <Property Name="warehouseNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="city" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="fk_product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductTransaction" Type="Self.ProductTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="productName" />
+      </Principal>
+      <Dependent Role="ProductTransaction">
+        <PropertyRef Name="productName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_warehouse">
+    <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductTransaction" Type="Self.ProductTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouse">
+        <PropertyRef Name="city" />
+      </Principal>
+      <Dependent Role="ProductTransaction">
+        <PropertyRef Name="city" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="ErrorHandling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetProductWarehouseAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="productName" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="ParonABModelStoreContainer">
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductTransaction" EntityType="Self.ProductTransaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_product" Association="Self.fk_product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductTransaction" EntitySet="ProductTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="fk_warehouse" Association="Self.fk_warehouse">
+      <End Role="Warehouse" EntitySet="Warehouse" />
+      <End Role="ProductTransaction" EntitySet="ProductTransaction" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

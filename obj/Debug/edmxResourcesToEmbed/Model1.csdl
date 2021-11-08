@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ParonABModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productName" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productNo" Type="String" MaxLength="4" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="productName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="price" Type="Int32" />
+    <NavigationProperty Name="ProductTransactions" Relationship="Self.fk_product" FromRole="Product" ToRole="ProductTransaction" />
+  </EntityType>
+  <EntityType Name="ProductTransaction">
+    <Key>
+      <PropertyRef Name="productName" />
+      <PropertyRef Name="city" />
+      <PropertyRef Name="amount" />
+    </Key>
+    <Property Name="dateTransaction" Type="DateTime" Precision="0" />
+    <Property Name="productName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="amount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.fk_product" FromRole="ProductTransaction" ToRole="Product" />
+    <NavigationProperty Name="Warehouse" Relationship="Self.fk_warehouse" FromRole="ProductTransaction" ToRole="Warehouse" />
+  </EntityType>
+  <EntityType Name="Warehouse">
+    <Key>
+      <PropertyRef Name="city" />
+    </Key>
+    <Property Name="warehouseNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ProductTransactions" Relationship="Self.fk_warehouse" FromRole="Warehouse" ToRole="ProductTransaction" />
+  </EntityType>
+  <Association Name="fk_product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductTransaction" Type="Self.ProductTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="productName" />
+      </Principal>
+      <Dependent Role="ProductTransaction">
+        <PropertyRef Name="productName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_warehouse">
+    <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductTransaction" Type="Self.ProductTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouse">
+        <PropertyRef Name="city" />
+      </Principal>
+      <Dependent Role="ProductTransaction">
+        <PropertyRef Name="city" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ParonABEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductTransactions" EntityType="Self.ProductTransaction" />
+    <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
+    <AssociationSet Name="fk_product" Association="Self.fk_product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProductTransaction" EntitySet="ProductTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="fk_warehouse" Association="Self.fk_warehouse">
+      <End Role="Warehouse" EntitySet="Warehouses" />
+      <End Role="ProductTransaction" EntitySet="ProductTransactions" />
+    </AssociationSet>
+    <FunctionImport Name="ErrorHandling" />
+    <FunctionImport Name="GetProductWarehouseAmount" ReturnType="Collection(ParonABModel.GetProductWarehouseAmount_Result)">
+      <Parameter Name="productName" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="GetProductWarehouseAmount_Result">
+    <Property Type="String" Name="city" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="amount" Nullable="true" />
+  </ComplexType>
+</Schema>

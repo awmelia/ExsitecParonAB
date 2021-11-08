@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ExsitecParonAB.Models.ProductTransaction>
+
+<h2>In- och utleveranser</h2>
+<hr />
+<table class="transaction">
+    <tr>
+        <th id="date1">
+            Datum
+        </th>
+        <th id="productName1">
+            Produktnamn
+        </th>
+        <th id="city1">
+            Stad
+        </th>
+        <th id="amount1">
+            Antal
+        </th>
+        <th id="actionTrans"></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td id="date">
+        @Html.DisplayFor(modelItem => item.dateTransaction)
+    </td>
+    <td id="productName">
+        @Html.DisplayFor(modelItem => item.productName)
+    </td>
+    <td id="city">
+        @Html.DisplayFor(modelItem => item.city)
+    </td>
+    <td id="amount">
+        @Html.DisplayFor(modelItem => item.amount)
+    </td>
+    <td>
+        @Html.ActionLink("Ändra", "Edit", new { id1 = item.productName, id2 = item.city, id3 = item.amount }) |
+        @Html.ActionLink("Radera", "Delete", new { id1 = item.productName, id2 = item.city, id3 = item.amount })
+    </td>
+</tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Lägg till", "Create")
+</p>

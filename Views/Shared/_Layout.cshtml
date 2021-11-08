@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <title>Päron AB</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <div class="navbar-header">
+        @Html.ActionLink("Päron AB", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    </div>
+    <nav>
+        <ul class="nav-ul" id="nav-ul">
+            <li>@Html.ActionLink("Lagerstatus", "Index", "Home")</li>
+            <li>@Html.ActionLink("Produkter", "Index", "Products")</li>
+            <li>@Html.ActionLink("Färdigvarulager", "Index", "Warehouses")</li>
+            <li>@Html.ActionLink("In- och Utleveranser", "Index", "ProductTransactions")</li>
+        </ul>
+    </nav>
+    <!--Used for hamburger-nav-->
+    <label for="nav-toggle" class="nav-toggle-label">
+        <span></span>
+    </label>
+    <header>
+        <picture>
+            <source media="(min-width: 640px)" srcset="~/deskwork_medium.jpg 1280w" sizes="80vw">
+            <img src="~/deskwork_small.jpg" alt="Flera olika former av produkter för kontorsanvändning ovanifrån" />
+        </picture>
+    </header>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <aside>
+            <!--used because it is related to content in main but should be logically seperated as it is repeated in all pages of the site-->
+            <footer>
+                <p>
+                    <!--Information about copyright-->
+                    <small>© Copyright 2021 | Exsitec | Amelia Wilhelmsson </small>
+                </p>
+            </footer>
+        </aside>
+    </div>
+    <script type="module" src="~/Scripts/hamburger.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

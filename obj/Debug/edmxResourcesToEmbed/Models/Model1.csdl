@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ParonABModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productNo" />
+    </Key>
+    <Property Name="number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productNo" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="price" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ProductTransaction">
+    <Key>
+      <PropertyRef Name="productName" />
+      <PropertyRef Name="city" />
+      <PropertyRef Name="amount" />
+    </Key>
+    <Property Name="dateTransaction" Type="DateTime" Precision="0" />
+    <Property Name="productName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="amount" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Warehouse">
+    <Key>
+      <PropertyRef Name="warehouseNo" />
+    </Key>
+    <Property Name="warehouseNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="ParonABEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductTransactions" EntityType="Self.ProductTransaction" />
+    <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
+    <FunctionImport Name="GetProducts" ReturnType="Collection(ParonABModel.GetProducts_Result)" />
+    <FunctionImport Name="GetProductWarehouseAmount" ReturnType="Collection(ParonABModel.GetProductWarehouseAmount_Result)">
+      <Parameter Name="productName" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="GetProducts_Result">
+    <Property Type="Int32" Name="number" Nullable="false" />
+    <Property Type="String" Name="productNo" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="productName" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="price" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetProductWarehouseAmount_Result">
+    <Property Type="String" Name="city" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="amount" Nullable="true" />
+  </ComplexType>
+</Schema>

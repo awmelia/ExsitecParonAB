@@ -1,0 +1,51 @@
+﻿@using ExsitecParonAB.Models
+@model ExsitecParonAB.Models.ParonABEntities1
+@using ExsitecParonAB.Controllers
+
+@{
+    HomeController controller = new HomeController();
+}
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <title>Päron AB</title>
+    <meta charset="UTF-8" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 2">
+    <meta name="description" content="Päron AB - webbapplikation för att kunna ta del av information om lagersaldo, samt där anställda kan rapportera in- och utleveranser. " />
+</head>
+
+<body>
+    <div id="container">
+        <main>
+            <!--start of the main content of the page-->
+            <section class="s1">
+                <!--Start of section 1-->
+                <h2>Den Aktuella Lagerstatusen</h2>
+                <hr />
+                @foreach (GetProducts_Result product in controller.GetAllProducts())
+                {
+                    <article id="@product.productName">
+                        <h3>@product.productName</h3>
+                        <table>
+                            <thead>
+                                <th>Stad</th>
+                                <th>Summa</th>
+                            </thead>
+                            @foreach (GetProductWarehouseAmount_Result amount in controller.GetProductWarehouseAmount(product.productName))
+                            {
+                                <tbody>
+                                    <td>@amount.city</td>
+                                    <td>@amount.amount</td>
+                                </tbody>
+                            }
+                        </table>
+                    </article>
+                }
+            </section> <!--End of section s1-->
+        </main> <!--End of main-->
+    </div> <!--end of container-->
+
+</body>
+</html>
